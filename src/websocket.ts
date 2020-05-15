@@ -5,7 +5,7 @@ import { snakeToPascalCase } from "./lib/snake-to-pascal-case";
 
 const AWS = require('aws-sdk');
 
-AWS.config.loadFromPath('./config.local.json');
+//AWS.config.loadFromPath('./config.local.json');
 const ddb = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});;
 const gameService = new GameService(ddb);
 const messageGateway = new MessageGateway(gameService)

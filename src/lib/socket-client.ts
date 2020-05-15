@@ -6,10 +6,10 @@ export class SocketClient {
 
     constructor(private url, private apiverion = '2018-11-29') {
         this.apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
-            //apiVersion: '2018-11-29',
-            //endpoint: url,
-            apiVersion: '2029',
-            endpoint: 'http://localhost:3001',
+            apiVersion: apiverion,
+            endpoint: url,
+            //apiVersion: '2029',
+            //endpoint: 'http://localhost:3001',
         });
     }
 
