@@ -56,11 +56,13 @@ export class Uno implements GameInterface {
         }, {})
 
         let discardPile = deck.deal();
+        let startingPlayer = getRandomInt(0, this.state.players.length);
         
         this.state = {
           ...this.state, 
           state: GameState.PLAY, 
-          playersTurn: getRandomInt(0, this.state.players.length),
+          playersTurn: startingPlayer,
+          playerCounter: startingPlayer,
           cardsInDeck: deck.getCards(),
           cardsInHand: playersHands,
           discardPile: discardPile,
@@ -127,7 +129,9 @@ export class Uno implements GameInterface {
         }
 
         let deck = new Deck(this.state.cardsInDeck);
-        let nextPlayer = mod((this.state.playersTurn + this.state.direction), this.state.players.length);
+        
+        let playerCounter = this.state.playerCounter + this.state.direction;
+        let nextPlayer = mod(this.state.playersTurn + this.state.direction, this.state.players.length);
         
         //+2 cards
         if(card[0] === "+") {
@@ -136,7 +140,8 @@ export class Uno implements GameInterface {
             deck = resp.deck;
 
             // Skip next player
-            nextPlayer = (nextPlayer + this.state.direction) % this.state.players.length;
+            playerCounter = (playerCounter + this.state.direction);
+            nextPlayer = mod(nextPlayer + this.state.direction, this.state.players.length);
         }
 
         //+4 cards
@@ -146,20 +151,23 @@ export class Uno implements GameInterface {
             deck = resp.deck;
             
             // Skip next player
-            nextPlayer = (nextPlayer + this.state.direction) % this.state.players.length;
+            playerCounter = (playerCounter + this.state.direction);
+            nextPlayer = mod(nextPlayer + this.state.direction, this.state.players.length);
         }
 
         //miss a turn
         if(card[0] === "x") { 
             // Skip next player
-            nextPlayer = (nextPlayer + this.state.direction) % this.state.players.length;
+            playerCounter = (playerCounter + this.state.direction);
+            nextPlayer = mod(nextPlayer + this.state.direction, this.state.players.length);
         }
 
         this.state = {
             ...this.state, 
             state: hand.length === 0 ? GameState.GAME_OVER : this.state.state,
             winner: hand.length === 0 ? playerId : '?',
-            playersTurn: nextPlayer,
+            playersTurn:  nextPlayer,
+            playerCounter: playerCounter,
             cardsInHand: cardsInHand,
             discardPile: discardPile,
             cardsInDeck: deck.getCards(),
@@ -178,6 +186,7 @@ export class Uno implements GameInterface {
 
         this.state = {
             ...this.state, 
+            playerCounter: (this.state.playerCounter + this.state.direction),
             playersTurn: mod((this.state.playersTurn + this.state.direction), this.state.players.length),
             cardsInDeck: resp.deck.getCards()
         }        
@@ -214,6 +223,7 @@ const initialState = {
     state: GameState.AWAITING_PLAYERS,
     players: [],
     playersTurn: null,
+    playerCounter:0,
     cardsInHand: {
     },
     cardsInDeck: [],
