@@ -13,8 +13,6 @@ provider:
   runtime: nodejs10.x
   stage: testing
   region: eu-west-2
-  logs:
-    websocket: true
   websocketsApiName: games-api
   websocketsApiRouteSelectionExpression: $request.body.action # custom routes are selected by the value of the action property in the body
   iamRoleStatements:
