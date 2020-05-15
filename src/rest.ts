@@ -27,9 +27,6 @@ export async function handler(event, context){
         let itemRegex = new RegExp( '^' + controller.itemPath + '$' , 'g' )
         let m = itemRegex.exec(path);
 
-        console.log(path);
-        console.log("m", m);
-
         if(m && typeof c[`${controllerMethod}Item`] === 'function') {
             return c[`${controllerMethod}Item`](m.groups);
         }
@@ -37,9 +34,6 @@ export async function handler(event, context){
         let collectionRegex = new RegExp( '^' + controller.collectionPath + '$' , 'g' )
         m = collectionRegex.exec(path);
 
-        console.log(path);
-        console.log("m", m);
-        
         if (m && typeof c[controllerMethod] === 'function') {
             return c[controllerMethod](m.groups);
         }
