@@ -1,0 +1,58 @@
+{
+  "name": "games-api",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "start:local": "serverless offline --printOutput",
+    "ws": "wscat --connect localhost:3001",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "deploy:prod": "serverless deploy --env=production"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.676.0",
+    "dotenv": "^8.2.0",
+    "uuidv4": "^6.0.8"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.39",
+    "jest": "^25.5.4",
+    "jest-when": "^2.7.1",
+    "prettier": "^1.19.1",
+    "serverless": "^1.70.1",
+    "serverless-dotenv-plugin": "^2.4.2",
+    "serverless-offline": "^5.12.1",
+    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-plugin-warmup": "^4.9.0",
+    "sinon": "^7.5.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^25.5.1",
+    "ts-loader": "^6.2.2",
+    "ts-node": "^8.10.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.9.2",
+    "wscat": "^4.0.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node"
+  }
+}

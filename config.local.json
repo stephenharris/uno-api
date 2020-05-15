@@ -1,0 +1,6 @@
+{
+    "region": "us-east-1",
+    "endpoint": "http://localhost:8000",
+    "accessKeyId": "key",
+    "secretAccessKey": "secret"
+}
