@@ -25,7 +25,10 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - {"Fn::GetAtt": ["GamesDynamoDBTable", "Arn" ]}
+        - { "Fn::GetAtt": ["GamesDynamoDBTable", "Arn" ] }
+        - { "Fn::Join": [ "/", [ 
+            { "Fn::GetAtt": ["GamesDynamoDBTable", "Arn" ] }, "index", "Connections" 
+          ]]}
     - Effect: Allow
       Action:
         - secretsmanager:GetSecretValue
@@ -68,11 +71,23 @@ resources:
             AttributeType: S
           - AttributeName: sk
             AttributeType: S
+          - AttributeName: connectionId
+            AttributeType: S
         KeySchema:
           - AttributeName: pk
             KeyType: HASH
           - AttributeName: sk
             KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: Connections
+            KeySchema:
+              - AttributeName: connectionId
+                KeyType: HASH
+            Projection:
+              ProjectionType: KEYS_ONLY
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
