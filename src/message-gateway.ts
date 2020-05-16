@@ -24,25 +24,22 @@ export class MessageGateway {
       console.log('handlePing');
       await client.emit(clientId, {"recievedFrom": clientId, "payload": payload}).catch(() => {console.log('Failed to send to player.connectionId')});
     }
-    
+
     async handleJoinGame(clientId: string, payload: any, client: SocketClient) {
   
       console.log(`Client ${clientId} / ${payload.name} ${payload.id} joining game ${payload.gameId}`);
       await this.gameService.addConnnection(payload.gameId, clientId, payload.id);
       
-
-      return this.gameService
-        .getGame(payload.gameId)
-        .then(async (game) => {
-          let newState = game.joinGame(payload.name, payload.id)
+      let game = await this.gameService.getGame(payload.gameId);
+      
+      let newState = game.joinGame(payload.name, payload.id)
     
-          await this.gameService.storeGame(game);
-          
-          await this.emitState(client, (game as Uno));
+      await this.gameService.storeGame(game);
+      
+      await this.emitState(client, (game as Uno));
 
-          let payload = (game as Uno).getPlayerState(payload.id);
-          await client.emit(clientId, payload).catch(() => {console.log('Failed to send to player.connectionId')});
-        });
+      let response = (game as Uno).getPlayerState(payload.id);
+      await client.emit(clientId, response).catch(() => {console.log('Failed to send to player.connectionId')});
     }
   
     handleStartGame(clientId: string, payload: any, client: SocketClient) {
