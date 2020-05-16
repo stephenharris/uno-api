@@ -55,19 +55,20 @@ export class MessageGateway {
         });
     }
   
-    handlePlayCard(clientId: string, payload: any, client: SocketClient) {
+    async handlePlayCard(clientId: string, payload: any, client: SocketClient) {
       
       console.log(`Client ${clientId} played card ${payload.card} in game ${payload.gameId}`);
+         
+      let game = await this.gameService.getGame(payload.gameId);
+      
+      let newState = game.playCard(payload.playerId, payload.card);
+      
+      await this.gameService.storeGame(game);
+        
+      await this.emitState(client, (game as Uno));
   
-      return this.gameService
-        .getGame(payload.gameId)
-        .then(async (game) => {
-  
-          let newState = game.playCard(payload.playerId, payload.card);
-          await this.gameService.storeGame(game);
-  
-          await this.emitState(client, (game as Uno));
-        });
+      let response = (game as Uno).getPlayerState(payload.playerId);
+      await client.emit(clientId, response).catch(() => {console.log('Failed to send to player.connectionId')});
     }
   
     handlePickupCard(clientId: string, payload: any, client: SocketClient) {
