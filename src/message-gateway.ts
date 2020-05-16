@@ -11,7 +11,7 @@ export class MessageGateway {
       console.log('emit state', game.id())
      return this.gameService.getPlayers(game.id())
       .then(async (players) => {
-        players.map(async (player) => {
+        return players.map(async (player) => {
           console.log(`send state to ${player.playerId} / ${player.connectionId}`);
         
           let payload = game.getPlayerState(player.playerId);

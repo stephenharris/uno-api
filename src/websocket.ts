@@ -35,7 +35,7 @@ export async function message(event, context){
   if ( typeof messageGateway[method] === 'function') {
     console.log('calling method');
     await messageGateway[method](connectionId, body.payload, client);
-
+    console.log('method called');
     return {
       statusCode: 200,
     };
