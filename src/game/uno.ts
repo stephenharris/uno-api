@@ -31,11 +31,18 @@ export class Uno implements GameInterface {
     }
 
     public getPlayerState(playerId) {
-        return {
+        let playerState = {
               ...this.state,
               thisPlayer: playerId,
               cardsInPlayersHand: this.state.cardsInHand[playerId],
+              cardsInHand: this.state.players.reduce((cardsInHand, player) => {
+                  cardsInHand[player.id] = this.state.cardsInHand[player.id].length;
+                  return cardsInHand;
+              }, {})
         }
+        delete playerState['cardsInDeck'];
+
+        return playerState;
     }
 
     public getGame() {

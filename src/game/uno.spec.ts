@@ -762,4 +762,56 @@ describe('Uno', () => {
     });
 
 
+
+    describe('get player state', () => {
+
+      let game;
+      beforeEach(() => {
+        game = new Uno({
+          state: GameState.PLAY,
+          players: [
+            {"id":"60d90150-891b-4395-b67e-e992ad4a095a", "name": "Alice"},
+            {"id":"4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4", "name": "Bob"},
+            {"id":"baaade3a-ea39-4c94-9ecf-7189d0ca0d56", "name": "Charlie"},
+          ],
+          playersTurn: 1,
+          cardsInHand: {
+            "60d90150-891b-4395-b67e-e992ad4a095a": ["6b1", "7b0", "7b1"],
+            "4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4": ["*?3", "0b", "1r0", "2r1"],
+            "baaade3a-ea39-4c94-9ecf-7189d0ca0d56": ["9y0"]
+          },
+          cardsInDeck: ["8g1", "7b0"],
+          discardPile: ["5g1", "7g1", "6g1", "6y0", "9g0", "3y1"],
+        });
+      });
+      
+      it('returns the player\'s ID', async () => {
+        let playerState = game.getPlayerState("4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4");
+        expect(playerState.thisPlayer).toEqual("4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4");
+      });
+
+      it('returns the player\'s hand', async () => {
+        let playerState = game.getPlayerState("4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4");
+        expect(playerState.cardsInPlayersHand).toEqual(["*?3", "0b", "1r0", "2r1"]);
+      });
+
+      it('returns the number of cards in other players hands', async () => {
+        let playerState = game.getPlayerState("4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4");
+        expect(playerState.cardsInHand).toEqual({
+          "60d90150-891b-4395-b67e-e992ad4a095a": 3,
+          "4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4": 4,
+          "baaade3a-ea39-4c94-9ecf-7189d0ca0d56": 1,
+        });
+      });
+
+      it('it does not return the deck', async () => {
+        let playerState = game.getPlayerState("4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4");
+        console.log(playerState);
+        expect(playerState).not.toHaveProperty("cardsInDeck")
+      });
+      //
+
+    });
+
+
   });
