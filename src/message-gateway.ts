@@ -15,15 +15,15 @@ export class MessageGateway {
           console.log(`send state to ${player.playerId} / ${player.connectionId}`);
         
           let payload = game.getPlayerState(player.playerId);
-          await client.emit(player.connectionId, payload);
+          await client.emit(player.connectionId, payload).catch(() => {console.log('Failed to send to player.connectionId')});
         });
       })
     }
     
-    handleJoinGame(clientId: string, payload: any, client: SocketClient) {
+    async handleJoinGame(clientId: string, payload: any, client: SocketClient) {
   
       console.log(`Client ${clientId} / ${payload.name} ${payload.id} joining game ${payload.gameId}`);
-      this.gameService.addConnnection(payload.gameId, clientId, payload.id);
+      await this.gameService.addConnnection(payload.gameId, clientId, payload.id);
       
 
       return this.gameService

@@ -119,14 +119,12 @@ export class GameService {
 
         console.log(params);
           
-        this.ddb.put(params, function(err, data) {
-            if (err) {
-              console.log("Error", err);
-              throw Error(err);
-            } else {
-              console.log("Success", data);
+        return this.ddb.put(params).promise().catch(
+            (error) => {
+                console.log("Error storing game", error);
+                throw Error(error);
             }
-        });
+        );
     }
 
     public getGame(gameId: string): Promise<GameInterface> {
