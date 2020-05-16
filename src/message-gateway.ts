@@ -39,6 +39,9 @@ export class MessageGateway {
           await this.gameService.storeGame(game);
           
           await this.emitState(client, (game as Uno));
+
+          let payload = (game as Uno).getPlayerState(payload.id);
+          await client.emit(clientId, payload).catch(() => {console.log('Failed to send to player.connectionId')});
         });
     }
   
