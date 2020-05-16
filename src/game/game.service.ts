@@ -138,7 +138,8 @@ export class GameService {
             },
             ExpressionAttributeValues : {
                 ':gameId' : gameId,
-            }
+            },
+            ConsistentRead: true
         };
         
         return this.ddb.get(params).promise()
