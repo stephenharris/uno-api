@@ -18,7 +18,7 @@ export class SocketClient {
       console.log('emit', connectionId, payload);
 
       await this.apigatewaymanagementapi.postToConnection({
-        connectionId,
+        ConnectionId: connectionId,
         Data: JSON.stringify(payload)
       }).promise().catch(async err => {
         console.log('send error');
