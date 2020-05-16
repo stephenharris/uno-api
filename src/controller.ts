@@ -5,7 +5,7 @@ import { GameInterface } from "./game/game-interface";
 
 export class Controller {
 
-    public collectionPath = '/game';
+    public collectionPath = '/game/?';
     public itemPath = '/game/(?<id>[0-9a-zA-Z-]+)/?';
   
     constructor(private gameService: GameService) {
