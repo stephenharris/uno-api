@@ -42,17 +42,15 @@ export class MessageGateway {
       await client.emit(clientId, response).catch(() => {console.log('Failed to send to player.connectionId')});
     }
   
-    handleStartGame(clientId: string, payload: any, client: SocketClient) {
+    async handleStartGame(clientId: string, payload: any, client: SocketClient) {
       console.log(`Client ${clientId} started the game`);
- 
-      return this.gameService
-        .getGame(payload.gameId)
-        .then(async (game) => {
-          let newState = game.startGame();
-          await this.gameService.storeGame(game);
-  
-          await this.emitState(client, (game as Uno));
-        });
+      
+      let game = await this.gameService.getGame(payload.gameId);
+
+      let newState = game.startGame();
+      await this.gameService.storeGame(game);
+        
+      await this.emitState(client, (game as Uno));
     }
   
     async handlePlayCard(clientId: string, payload: any, client: SocketClient) {
@@ -71,18 +69,16 @@ export class MessageGateway {
       await client.emit(clientId, response).catch(() => {console.log('Failed to send to player.connectionId')});
     }
   
-    handlePickupCard(clientId: string, payload: any, client: SocketClient) {
+    async handlePickupCard(clientId: string, payload: any, client: SocketClient) {
       
       console.log(`Client ${payload.playerId}/${clientId} picked up card in game ${payload.gameId}`);
-  
-      return this.gameService
-        .getGame(payload.gameId)
-        .then(async (game) => {
-  
-          let newState = (game as Uno).pickUp(payload.playerId);
-          this.gameService.storeGame(game);
-  
-          this.emitState(client, (game as Uno));
-        });
+           
+      let game = await this.gameService.getGame(payload.gameId);
+      
+      let newState = (game as Uno).pickUp(payload.playerId);
+      
+      await this.gameService.storeGame(game);
+        
+      await this.emitState(client, (game as Uno));
     }  
 }
