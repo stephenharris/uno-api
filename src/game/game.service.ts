@@ -102,7 +102,7 @@ export class GameService {
         game = new Uno();
         game.setId(gameId);
 
-        this.storeGame(game);
+        await this.storeGame(game);
         return game;
     }
 

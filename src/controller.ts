@@ -26,14 +26,13 @@ export class Controller {
         }
     }
 
-    public handlePost() {
+    public async handlePost() {
         try {
-            return this.gameService.createGame("uno").then((game) => {
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify(game.getState())
-                };
-            });
+            let game = await this.gameService.createGame("uno");
+            return {
+                statusCode: 200,
+                body: JSON.stringify(game.getState())
+            };
         } catch (error) {
             console.log("error", error);
             throw error;   
