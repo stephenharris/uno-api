@@ -11,10 +11,12 @@ export class SocketClient {
             //apiVersion: '2029',
             //endpoint: 'http://localhost:3001',
         });
+        console.log(url, apiverion);
     }
 
     public emit(connectionId, payload) {
-        new Promise((resolve, reject) => {
+        console.log('emit', connectionId, payload);
+        return new Promise((resolve, reject) => {
             this.apigatewaymanagementapi.postToConnection(
               {
                 ConnectionId: connectionId, // connectionId of the receiving ws-client

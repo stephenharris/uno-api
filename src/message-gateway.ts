@@ -9,12 +9,12 @@ export class MessageGateway {
 
     private emitState(client, game: Uno) {
      this.gameService.getPlayers(game.id())
-      .then((players) => {
+      .then(async (players) => {
         players.map((player) => {
           console.log(`send state to ${player.playerId} / ${player.connectionId}`);
         
           let payload = game.getPlayerState(player.playerId);
-          client.emit(player.connectionId, payload);
+          await client.emit(player.connectionId, payload);
         });
       })
     }
