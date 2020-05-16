@@ -20,6 +20,11 @@ export class MessageGateway {
       })
     }
     
+    async handlePing(clientId: string, payload: any, client: SocketClient) {
+      console.log('handlePing');
+      await client.emit(clientId, {"recievedFrom": clientId, "payload": payload}).catch(() => {console.log('Failed to send to player.connectionId')});
+    }
+    
     async handleJoinGame(clientId: string, payload: any, client: SocketClient) {
   
       console.log(`Client ${clientId} / ${payload.name} ${payload.id} joining game ${payload.gameId}`);
