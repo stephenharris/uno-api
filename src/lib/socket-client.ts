@@ -14,22 +14,17 @@ export class SocketClient {
         console.log(url, apiverion);
     }
 
-    public emit(connectionId, payload) {
-        console.log('emit', connectionId, payload);
-        return new Promise((resolve, reject) => {
-            this.apigatewaymanagementapi.postToConnection(
-              {
-                ConnectionId: connectionId, // connectionId of the receiving ws-client
-                Data: JSON.stringify(payload),
-              },
-              (err, data) => {
-                if (err) {
-                  console.log('err is', err);
-                  reject(err);
-                }
-                resolve(data);
-              }
-            );
-        });
+    public async emit(connectionId, payload) {
+      console.log('emit', connectionId, payload);
+
+      await this.apigatewaymanagementapi.postToConnection({
+        connectionId,
+        Data: JSON.stringify(payload)
+      }).promise().catch(async err => {
+        console.log('send error');
+        console.log(JSON.stringify(err))
+      });
+
+      return true;
     }
 }
