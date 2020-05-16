@@ -27,12 +27,12 @@ export class MessageGateway {
 
       return this.gameService
         .getGame(payload.gameId)
-        .then((game) => {
+        .then(async (game) => {
           let newState = game.joinGame(payload.name, payload.id)
     
-          this.gameService.storeGame(game);
+          await this.gameService.storeGame(game);
           
-          this.emitState(client, (game as Uno));
+          await this.emitState(client, (game as Uno));
         });
     }
   
@@ -43,9 +43,9 @@ export class MessageGateway {
         .getGame(payload.gameId)
         .then(async (game) => {
           let newState = game.startGame();
-          this.gameService.storeGame(game);
+          await this.gameService.storeGame(game);
   
-          this.emitState(client, (game as Uno));
+          await this.emitState(client, (game as Uno));
         });
     }
   
@@ -58,9 +58,9 @@ export class MessageGateway {
         .then(async (game) => {
   
           let newState = game.playCard(payload.playerId, payload.card);
-          this.gameService.storeGame(game);
+          await this.gameService.storeGame(game);
   
-          this.emitState(client, (game as Uno));
+          await this.emitState(client, (game as Uno));
         });
     }
   
