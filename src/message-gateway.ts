@@ -7,17 +7,17 @@ export class MessageGateway {
     constructor(private gameService: GameService) {
     }
 
-    private emitState(client, game: Uno) {
-      console.log('emit state', game.id())
-     return this.gameService.getPlayers(game.id())
-      .then(async (players) => {
-        return players.map(async (player) => {
+    private async emitState(client, game: Uno) {
+      console.log('emit state', game.id());
+      let players = await this.gameService.getPlayers(game.id());
+
+      if(players) {
+        for(let player of players) {
           console.log(`send state to ${player.playerId} / ${player.connectionId}`);
-        
           let payload = game.getPlayerState(player.playerId);
           await client.emit(player.connectionId, payload).catch(() => {console.log('Failed to send to player.connectionId')});
-        });
-      })
+        }
+      }
     }
     
     async handlePing(clientId: string, payload: any, client: SocketClient) {
