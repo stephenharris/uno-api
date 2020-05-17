@@ -41,7 +41,11 @@ export async function handler(event, context){
     
     return {
         statusCode: 404,
-        body: "No controller found"
+        body: "No controller found",
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+        }
     };
   
   };

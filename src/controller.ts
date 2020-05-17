@@ -17,7 +17,11 @@ export class Controller {
             return this.gameService.getGame(pathparams.id).then((game) => {
                 return {
                     statusCode: 200,
-                    body: JSON.stringify(game.getState())
+                    body: JSON.stringify(game.getState()),
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Credentials': true,
+                    }
                 };
             });
         } catch (error) {
@@ -31,7 +35,11 @@ export class Controller {
             let game = await this.gameService.createGame("uno");
             return {
                 statusCode: 200,
-                body: JSON.stringify(game.getState())
+                body: JSON.stringify(game.getState()),
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Credentials': true,
+                }
             };
         } catch (error) {
             console.log("error", error);
