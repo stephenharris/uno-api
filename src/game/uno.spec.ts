@@ -811,6 +811,32 @@ describe('Uno', () => {
       });
       //
 
+
+      it('it does not error if in default state', async () => {
+        let game = new Uno({
+          state: GameState.AWAITING_PLAYERS,
+          players: [
+            {"id":"60d90150-891b-4395-b67e-e992ad4a095a", "name": "Alice"},
+            {"id":"4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4", "name": "Bob"},
+            {"id":"baaade3a-ea39-4c94-9ecf-7189d0ca0d56", "name": "Charlie"},
+          ],
+          playersTurn: null,
+          playerCounter:0,
+          cardsInHand: {},
+          cardsInDeck: [],
+          discardPile: [],
+          winner: '?',
+          direction: 1
+        });
+        let playerState = game.getPlayerState("4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4");
+
+        expect(playerState.cardsInHand).toEqual({
+          "60d90150-891b-4395-b67e-e992ad4a095a": 0,
+          "4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4": 0,
+          "baaade3a-ea39-4c94-9ecf-7189d0ca0d56": 0,
+        });
+      });
+
     });
 
 

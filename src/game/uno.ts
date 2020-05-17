@@ -36,7 +36,7 @@ export class Uno implements GameInterface {
               thisPlayer: playerId,
               cardsInPlayersHand: this.state.cardsInHand[playerId],
               cardsInHand: this.state.players.reduce((cardsInHand, player) => {
-                  cardsInHand[player.id] = this.state.cardsInHand[player.id].length;
+                  cardsInHand[player.id] = this.state.cardsInHand[player.id] ? this.state.cardsInHand[player.id].length : 0;
                   return cardsInHand;
               }, {})
         }
