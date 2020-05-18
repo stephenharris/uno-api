@@ -160,20 +160,17 @@ export class GameService {
         var params = {
             TableName : "Games",
             Key: {
-                'pk': ':gameId',
+                'pk': gameId,
                 'sk': 'GameState'
             },
-            ExpressionAttributeValues : {
-                ':gameId' : gameId,
-            }
+            ConsistentRead: true
         };
-
-        return this.ddb.get(params).promise().then((response) => {
-            return response;
-        }).catch((error) => {
-            console.log(error)
-            throw new Error('Error checking if list exists');
-        });
+        
+        return this.ddb.get(params).promise()
+            .then((response) => {
+                return !!response.Item;
+            })
+            .catch((error) => console.log('error', error));
     }
 
     private async generateGameId() {
