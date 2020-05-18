@@ -180,10 +180,14 @@ export class GameService {
 
         let keyExists = true;
         let gameId;
+        let alphabet = ['A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T','U','V','W','X','Y','Z', '2', '3', '4','5', '6','7','8','9'];
 
         while(keyExists) {
-            gameId = Math.round(Math.random() * Math.pow(36, 9)).toString(36);
-            keyExists = false;// await this.gameExists(gameId);
+            gameId = '';
+            for(let i =0; i < 6; i++) {
+                gameId = gameId + alphabet[Math.round(Math.random() * alphabet.length)];
+            }
+            keyExists = await this.gameExists(gameId);
         }
         return gameId ;
     }
