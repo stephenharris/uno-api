@@ -8,6 +8,13 @@ export class Uno implements GameInterface {
     
     private state = initialState;
 
+    private colours = {
+        "b": "Blue",
+        "g": "Green",
+        "r": "Red",
+        "y": "Yellow",
+    }
+
     public constructor(state = null) {
       if(state) {
         this.state = state;
@@ -130,9 +137,12 @@ export class Uno implements GameInterface {
         discardPile.unshift(card);
         this.state.discardPile = discardPile;
 
+        let message = `${this.state.players[this.state.playersTurn].name} has played a ${this.colours[playedColour]} ${playedNumber}`;
+
         //change direction
         if(card[0] === "c") {
             this.state.direction = -1 * this.state.direction;
+            message = `${this.state.players[this.state.playersTurn].name} has played a ${this.colours[playedColour]} Change-direction card`;
         }
 
         let deck = new Deck(this.state.cardsInDeck);
@@ -142,6 +152,7 @@ export class Uno implements GameInterface {
         
         //+2 cards
         if(card[0] === "+") {
+            message = `${this.state.players[this.state.playersTurn].name} has played a ${this.colours[playedColour]} +2`;
             let resp = this.dealAndReshuffle(2);
             cardsInHand[this.state.players[nextPlayer].id] = cardsInHand[this.state.players[nextPlayer].id].concat(resp.dealt);
             deck = resp.deck;
@@ -153,6 +164,7 @@ export class Uno implements GameInterface {
 
         //+4 cards
         if(card[0] === "*") {
+            message = `${this.state.players[this.state.playersTurn].name} has played a +4 card and changed the colour to ${this.colours[playedColour]}`;
             let resp = this.dealAndReshuffle(4);
             cardsInHand[this.state.players[nextPlayer].id] = cardsInHand[this.state.players[nextPlayer].id].concat(resp.dealt);
             deck = resp.deck;
@@ -164,9 +176,15 @@ export class Uno implements GameInterface {
 
         //miss a turn
         if(card[0] === "x") { 
+            message = `${this.state.players[this.state.playersTurn].name} has played a ${this.colours[playedColour]} Miss-a-go`;
             // Skip next player
             playerCounter = (playerCounter + this.state.direction);
             nextPlayer = mod(nextPlayer + this.state.direction, this.state.players.length);
+        }
+
+        //Change colour
+        if(card[0] === "?") { 
+            message = `${this.state.players[this.state.playersTurn].name} has changed the colour to ${this.colours[playedColour]}`;
         }
 
         this.state = {
@@ -178,6 +196,7 @@ export class Uno implements GameInterface {
             cardsInHand: cardsInHand,
             discardPile: discardPile,
             cardsInDeck: deck.getCards(),
+            msg: message
         }
         return this.state;
     }
@@ -190,12 +209,14 @@ export class Uno implements GameInterface {
 
         let resp = this.dealAndReshuffle(1);
         this.state.cardsInHand[playerId] = this.state.cardsInHand[playerId].concat(resp.dealt);
+        let message = `${this.state.players[this.state.playersTurn].name} has picked up a card`;
 
         this.state = {
             ...this.state, 
             playerCounter: (this.state.playerCounter + this.state.direction),
             playersTurn: mod((this.state.playersTurn + this.state.direction), this.state.players.length),
-            cardsInDeck: resp.deck.getCards()
+            cardsInDeck: resp.deck.getCards(),
+            msg: message
         }        
 
         return this.state;
@@ -236,7 +257,8 @@ const initialState = {
     cardsInDeck: [],
     discardPile: [],
     winner: '?',
-    direction: 1
+    direction: 1,
+    msg: ""
 };
 
 export const UnoCards = [

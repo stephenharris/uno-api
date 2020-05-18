@@ -109,6 +109,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Yellow 5");
       });
 
       it('player can play card that matches by colour', async () => {
@@ -140,6 +142,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Blue 0");
       });
 
       it('player cannot player card that does not match', async () => {
@@ -270,6 +274,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Blue +2");
       });
 
       it('player can play +2 on a +2', async () => {
@@ -309,6 +315,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Red +2");
       });
 
 
@@ -349,6 +357,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Blue +2");
       });
 
       //TODO +2 can cause deck to be reset
@@ -390,6 +400,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Red Miss-a-go");
       });
 
 
@@ -430,6 +442,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a Red Miss-a-go");
       });
 
       it('player can play change direction card that matches by colour', async () => {
@@ -467,6 +481,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Charlie has played a Blue Change-direction card");
       });
 
       it('player can play change direction card on a play change direction card', async () => {
@@ -504,6 +520,8 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Charlie has played a Blue Change-direction card");
       });
 
 
@@ -539,6 +557,8 @@ describe('Uno', () => {
 
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has changed the colour to Green");
 
         //colour is now green, so you can't play a red card
         newState = game.playCard("baaade3a-ea39-4c94-9ecf-7189d0ca0d56", "5r1");
@@ -588,6 +608,8 @@ describe('Uno', () => {
 
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+
+        expect(newState.msg).toEqual("Bob has played a +4 card and changed the colour to Red");
 
         //colour is now red, so you can't play a blue card
         newState = game.playCard("60d90150-891b-4395-b67e-e992ad4a095a", "6b1");
@@ -669,6 +691,7 @@ describe('Uno', () => {
         
         //Game state is unchanged
         expect(newState.state).toEqual(GameState.PLAY);
+        expect(newState.msg).toEqual("Bob has picked up a card");
       });
 
       it('player cannot pick up if is not their turn', async () => {
