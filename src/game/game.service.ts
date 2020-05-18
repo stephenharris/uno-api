@@ -182,7 +182,7 @@ export class GameService {
         while(keyExists) {
             gameId = '';
             for(let i =0; i < 6; i++) {
-                gameId = gameId + alphabet[Math.round(Math.random() * alphabet.length)];
+                gameId = gameId + alphabet[Math.floor(Math.random() * alphabet.length)];
             }
             keyExists = await this.gameExists(gameId);
         }
