@@ -81,6 +81,7 @@ export class Uno implements GameInterface {
           cardsInHand: playersHands,
           discardPile: discardPile,
           winner: "?",
+          msg: null
         }
 
         return this.state;
@@ -102,7 +103,7 @@ export class Uno implements GameInterface {
 
         let players = this.state.players;
         players.push(player);
-        this.state = {...this.state, players: players};
+        this.state = {...this.state, players: players, msg: null};
 
         return this.state;
     }
@@ -258,7 +259,7 @@ const initialState = {
     discardPile: [],
     winner: '?',
     direction: 1,
-    msg: ""
+    msg: null
 };
 
 export const UnoCards = [
