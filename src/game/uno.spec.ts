@@ -76,6 +76,35 @@ describe('Uno', () => {
         //Cards taken from deuck
         expect(newState.cardsInDeck.length).toEqual(UnoCards.length - 15);
       });
+
+
+      it('trying to start an in-progress game should just return current state', async () => {
+        let game = new Uno({
+          id: "test",
+          state: GameState.PLAY,
+          players: [
+            {"id":"60d90150-891b-4395-b67e-e992ad4a095a", "name": "Alice"},
+            {"id":"4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4", "name": "Bob"},
+          ],
+          playersTurn: 1,
+          cardsInHand: {
+            "60d90150-891b-4395-b67e-e992ad4a095a": ["3r0", "6b1", "7b0", "7b1"],
+            "4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4": ["5y0", "0b", "1r0", "2r1"]
+          },
+          cardsInDeck: ["8g1", "7b0", "9g0", "3y1"],
+          discardPile: ["5b0", "5g1", "7g1", "6g1", "6y0"],
+        });
+        
+        let newState = game.startGame();
+
+        //State remains the same
+        expect(newState.cardsInHand['60d90150-891b-4395-b67e-e992ad4a095a']).toEqual(["3r0", "6b1", "7b0", "7b1"]);
+        expect(newState.cardsInHand['4d0a6b5b-dbe1-4a81-b3da-d3096f2b11c4']).toEqual(["5y0", "0b", "1r0", "2r1"]);
+        expect(newState.cardsInDeck).toEqual(["8g1", "7b0", "9g0", "3y1"]);
+        expect(newState.discardPile).toEqual(["5b0", "5g1", "7g1", "6g1", "6y0"]);
+        expect(newState.state).toEqual(GameState.PLAY);
+        expect(newState.playersTurn).toEqual(1);
+      });
     })
 
     describe('playing a card', () => {

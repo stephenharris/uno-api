@@ -57,6 +57,11 @@ export class Uno implements GameInterface {
     }
 
     public startGame() {
+
+        //If game has already started, just return current state.
+        if(this.state.state !== GameState.AWAITING_PLAYERS) {
+            return this.state;
+        }
     
         let deck = new Deck(UnoCards);
         deck.shuffle();
