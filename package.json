@@ -28,7 +28,7 @@
     "prettier": "^1.19.1",
     "serverless": "^1.70.1",
     "serverless-dotenv-plugin": "^2.4.2",
-    "serverless-offline": "^5.12.1",
+    "serverless-offline": "^14.4.0",
     "serverless-plugin-typescript": "^1.1.9",
     "serverless-plugin-warmup": "^4.9.0",
     "sinon": "^7.5.0",
